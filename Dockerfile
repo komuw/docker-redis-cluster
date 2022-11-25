@@ -35,7 +35,6 @@ RUN (cd /redis && make)
 RUN mkdir /redis-conf && mkdir /redis-data
 
 COPY redis-cluster.tmpl /redis-conf/redis-cluster.tmpl
-COPY redis.tmpl         /redis-conf/redis.tmpl
 
 # Add startup script
 COPY docker-entrypoint.sh /docker-entrypoint.sh
