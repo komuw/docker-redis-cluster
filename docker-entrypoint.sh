@@ -18,15 +18,12 @@ if [ "$1" = 'redis-cluster' ]; then
       INITIAL_PORT=7000
     fi
 
-    if [ -z "$MASTERS" ]; then # Default to 3 masters
-      MASTERS=3
-    fi
-
     if [ -z "$REDIS_PASSWORD" ]; then
       REDIS_PASSWORD=hello
     fi
 
     
+    MASTERS=2
     SLAVES_PER_MASTER=1
     # Default to any IPv4 address
     BIND_ADDRESS=0.0.0.0
