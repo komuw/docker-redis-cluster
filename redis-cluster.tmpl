@@ -3,6 +3,7 @@
 #
 bind ${BIND_ADDRESS}
 port ${PORT}
+loglevel verbose
 requirepass ${REDIS_PASSWORD}
 masterauth ${REDIS_PASSWORD}
 cluster-enabled yes
