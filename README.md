@@ -8,7 +8,7 @@ Docker image with redis built and installed from source and a cluster is built.
 
 Run:
 ```
-make build-image
+make build
 ```
 
 **TODO: look at;**      
@@ -44,7 +44,7 @@ TODO
 # Usage
 
 ```sh
-make build-image
+make build
 
 docker \
   run \
