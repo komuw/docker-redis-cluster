@@ -70,22 +70,7 @@ This image requires at least `Docker` version 1.10 but the latest version is rec
 
 
 # Important for Mac users
-
-If you are using this container to run a redis cluster on your mac computer, then you need to configure the container to use another IP address for cluster discovery as it can't use the default discovery IP that is hardcoded into the container.
-
-If you are using the docker-compose file to build the container, then you must export a environment variable on your machine before building the container.
-
-```
-# This will make redis do cluster discovery and bind all nodes to ip 127.0.0.1 internally
-
-export REDIS_CLUSTER_IP=0.0.0.0
-```
-
-If you are downloading the container from dockerhub, you must add the internal IP environment variable to your `docker run` command.
-
-```
-docker run -e "IP=0.0.0.0" -p 6379-6384:6379-6384 grokzen/redis-cluster:latest
-```
+TODO
 
 
 

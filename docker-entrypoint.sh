@@ -1,13 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = 'redis-cluster' ]; then
-    # Allow passing in cluster IP by argument or environmental variable
-    IP="${2:-$IP}"
-
-    if [ -z "$IP" ]; then # If IP is unset then discover it
-        IP=$(hostname -I)
-    fi
-
+    IP=$(hostname -I)
     echo " -- IP Before trim: '$IP'"
     IP=$(echo ${IP}) # trim whitespaces
     echo " -- IP Before split: '$IP'"
@@ -20,7 +14,8 @@ if [ "$1" = 'redis-cluster' ]; then
 
     
     INITIAL_PORT=6379
-    MASTERS=2
+    # If you use less than 3 masters, you get error: `Redis Cluster requires at least 3 master nodes`
+    MASTERS=3
     SLAVES_PER_MASTER=1
     # Default to any IPv4 address
     BIND_ADDRESS=0.0.0.0
