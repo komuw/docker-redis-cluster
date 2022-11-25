@@ -22,9 +22,8 @@ if [ "$1" = 'redis-cluster' ]; then
       MASTERS=3
     fi
 
-    if [ -z "$SLAVES_PER_MASTER" ]; then # Default to 1 slave for each master
-      SLAVES_PER_MASTER=1
-    fi
+    
+    SLAVES_PER_MASTER=1
 
     if [ -z "$BIND_ADDRESS" ]; then # Default to any IPv4 address
       BIND_ADDRESS=0.0.0.0
