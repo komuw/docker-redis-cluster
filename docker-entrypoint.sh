@@ -14,15 +14,12 @@ if [ "$1" = 'redis-cluster' ]; then
     IP=${IP%% *} # use the first ip
     echo " -- IP After trim: '$IP'"
 
-    if [ -z "$INITIAL_PORT" ]; then # Default to port 7000
-      INITIAL_PORT=7000
-    fi
-
     if [ -z "$REDIS_PASSWORD" ]; then
       REDIS_PASSWORD=hello
     fi
 
     
+    INITIAL_PORT=6379
     MASTERS=2
     SLAVES_PER_MASTER=1
     # Default to any IPv4 address

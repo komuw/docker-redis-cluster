@@ -1,11 +1,14 @@
-help:
-	@echo "Please use 'make <target>' where <target> is one of"
-	@echo "  build         builds docker-compose containers"
-	@echo "  up            starts docker-compose containers"
-	@echo "  down          stops the running docker-compose containers"
-	@echo "  rebuild       rebuilds the image from scratch without using any cached layers"
-	@echo "  bash          starts bash inside a running container."
-	@echo "  cli           run redis-cli inside the container on the server with port 7000"
+
+DOCKER_REGISTRY=komuw
+PROJECT_NAME=redis-cluster
+LATEST_COMMIT=$(shell git log -n 1 --pretty=format:%h)
+ALTREPO=$(DOCKER_REGISTRY)/$(PROJECT_NAME)
+REDIS_VERSION="6.2"
+
+build-image:
+	docker build -t "${ALTREPO}:v${REDIS_VERSION}-${LATEST_COMMIT}" .
+	# docker push --all-tags $(ALTREPO)
+
 
 build:
 	docker-compose build
