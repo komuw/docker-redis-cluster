@@ -22,6 +22,10 @@ if [ "$1" = 'redis-cluster' ]; then
       MASTERS=3
     fi
 
+    if [ -z "$REDIS_PASSWORD" ]; then
+      REDIS_PASSWORD=hello
+    fi
+
     
     SLAVES_PER_MASTER=1
     # Default to any IPv4 address
@@ -53,10 +57,10 @@ if [ "$1" = 'redis-cluster' ]; then
       fi
 
       if [ "$port" -lt "$first_standalone" ]; then
-        PORT=${port} BIND_ADDRESS=${BIND_ADDRESS} envsubst < /redis-conf/redis-cluster.tmpl > /redis-conf/${port}/redis.conf
+        PORT=${port} BIND_ADDRESS=${BIND_ADDRESS} REDIS_PASSWORD=${REDIS_PASSWORD} envsubst < /redis-conf/redis-cluster.tmpl > /redis-conf/${port}/redis.conf
         nodes="$nodes $IP:$port"
       else
-        PORT=${port} BIND_ADDRESS=${BIND_ADDRESS} envsubst < /redis-conf/redis.tmpl > /redis-conf/${port}/redis.conf
+        PORT=${port} BIND_ADDRESS=${BIND_ADDRESS} REDIS_PASSWORD=${REDIS_PASSWORD} envsubst < /redis-conf/redis.tmpl > /redis-conf/${port}/redis.conf
       fi
 
     done
@@ -78,7 +82,7 @@ if [ "$1" = 'redis-cluster' ]; then
       echo "yes" | eval ruby /redis/src/redis-trib.rb create --replicas "$SLAVES_PER_MASTER" "$nodes"
     else
       echo "Using redis-cli to create the cluster"
-      echo "yes" | eval /redis/src/redis-cli --cluster create --cluster-replicas "$SLAVES_PER_MASTER" "$nodes"
+      echo "yes" | eval /redis/src/redis-cli --cluster create --cluster-replicas "$SLAVES_PER_MASTER" "$nodes" -a "${REDIS_PASSWORD}"
     fi
 
     tail -f /var/log/supervisor/redis*.log

@@ -152,6 +152,7 @@ Be default, it is going to launch 3 masters with 1 slave per master. This is con
 | -------------------- |--------:|
 | `INITIAL_PORT`       |    7000 |
 | `MASTERS`            |       3 |
+| `REDIS_PASSWORD`     | hello   |
 
 Therefore, the total number of nodes (`NODES`) is going to be `$MASTERS * ( 2 )` and ports are going to range from `$INITIAL_PORT` to `$INITIAL_PORT + NODES - 1`.
 
