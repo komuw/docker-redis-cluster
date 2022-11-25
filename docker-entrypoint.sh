@@ -27,12 +27,9 @@ if [ "$1" = 'redis-cluster' ]; then
 
     max_port=$(($INITIAL_PORT + $MASTERS * ( $SLAVES_PER_MASTER  + 1 ) - 1))
     first_standalone=$(($max_port + 1))
-    if [ "$STANDALONE" = "true" ]; then
-      STANDALONE=2
-    fi
-    if [ ! -z "$STANDALONE" ]; then
-      max_port=$(($max_port + $STANDALONE))
-    fi
+
+    printf "\n\t max_port: ${max_port}\n"
+    printf "\n\t first_standalone: ${first_standalone}\n"
 
     for port in $(seq $INITIAL_PORT $max_port); do
       mkdir -p /redis-conf/${port}
