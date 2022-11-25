@@ -61,9 +61,6 @@ This major version schema support follows the same major version support that re
 
 The cluster is 6 redis instances running with 3 master & 3 slaves, one slave for each master. They run on ports 7000 to 7005.
 
-If the flag `-e "SENTINEL=true"` is passed there are 3 Sentinel nodes running on ports 5000 to 5002 matching cluster's master instances.
-
-
 This image requires at least `Docker` version 1.10 but the latest version is recommended.
 
 
@@ -147,22 +144,6 @@ Or the built redis-cli tool inside the container that will connect to the cluste
     make cli
 
 
-## Include sentinel instances
-
-Sentinel instances is not enabled by default.
-
-If running with plain docker send in `-e SENTINEL=true`.
-
-When running with docker-compose set the environment variable on your system `REDIS_USE_SENTINEL=true` and start your container.
-
-    version: '2'
-    services:
-      redis-cluster:
-        ...
-      environment:
-        SENTINEL: 'true'
-
-
 ## Change number of nodes
 
 Be default, it is going to launch 3 masters with 1 slave per master. This is configurable through a number of environment variables:
@@ -176,17 +157,6 @@ Be default, it is going to launch 3 masters with 1 slave per master. This is con
 Therefore, the total number of nodes (`NODES`) is going to be `$MASTERS * ( $SLAVES_PER_MASTER  + 1 )` and ports are going to range from `$INITIAL_PORT` to `$INITIAL_PORT + NODES - 1`.
 
 At the docker-compose provided by this repository, ports 7000-7050 are already mapped to the hosts'. Either if you need more than 50 nodes in total or if you need to change the initial port number, you should override those values.
-
-Also note that the number of sentinels (if enabled) is the same as the number of masters. The docker-compose file already maps ports 5000-5010 by default. You should also override those values if you have more than 10 masters.
-
-    version: '2'
-    services:
-      redis-cluster:
-        ...
-      environment:
-        INITIAL_PORT: 9000,
-        MASTERS: 2,
-        SLAVES_PER_MASTER: 2
 
 
 ## IPv6 support

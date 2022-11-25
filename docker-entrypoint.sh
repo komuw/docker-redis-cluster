@@ -62,13 +62,6 @@ if [ "$1" = 'redis-cluster' ]; then
         PORT=${port} BIND_ADDRESS=${BIND_ADDRESS} envsubst < /redis-conf/redis.tmpl > /redis-conf/${port}/redis.conf
       fi
 
-      if [ "$port" -lt $(($INITIAL_PORT + $MASTERS)) ]; then
-        if [ "$SENTINEL" = "true" ]; then
-          PORT=${port} SENTINEL_PORT=$((port - 2000)) envsubst < /redis-conf/sentinel.tmpl > /redis-conf/sentinel-${port}.conf
-          cat /redis-conf/sentinel-${port}.conf
-        fi
-      fi
-
     done
 
     bash /generate-supervisor-conf.sh $INITIAL_PORT $max_port > /etc/supervisor/supervisord.conf
@@ -89,12 +82,6 @@ if [ "$1" = 'redis-cluster' ]; then
     else
       echo "Using redis-cli to create the cluster"
       echo "yes" | eval /redis/src/redis-cli --cluster create --cluster-replicas "$SLAVES_PER_MASTER" "$nodes"
-    fi
-
-    if [ "$SENTINEL" = "true" ]; then
-      for port in $(seq $INITIAL_PORT $(($INITIAL_PORT + $MASTERS))); do
-        redis-sentinel /redis-conf/sentinel-${port}.conf &
-      done
     fi
 
     tail -f /var/log/supervisor/redis*.log
