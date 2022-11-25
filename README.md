@@ -63,7 +63,7 @@ This major version schema support follows the same major version support that re
 
 ## Redis instances inside the container
 
-The cluster is 6 redis instances running with 3 master & 3 slaves, one slave for each master. They run on ports 7000 to 7005.
+The cluster is 6 redis instances running with 3 master & 3 slaves, one slave for each master. They run on ports 6379 to 6384.
 
 This image requires at least `Docker` version 1.10 but the latest version is recommended.
 
@@ -84,7 +84,7 @@ export REDIS_CLUSTER_IP=0.0.0.0
 If you are downloading the container from dockerhub, you must add the internal IP environment variable to your `docker run` command.
 
 ```
-docker run -e "IP=0.0.0.0" -p 7000-7005:7000-7005 grokzen/redis-cluster:latest
+docker run -e "IP=0.0.0.0" -p 6379-6384:6379-6384 grokzen/redis-cluster:latest
 ```
 
 
@@ -141,7 +141,7 @@ To stop the container run:
 
 To connect to your cluster you can use the redis-cli tool:
 
-    redis-cli -c -p 7000
+    redis-cli -c -p 6379
 
 Or the built redis-cli tool inside the container that will connect to the cluster inside the container
 
@@ -159,7 +159,7 @@ Be default, it is going to launch 3 masters with 1 slave per master. This is con
 TODO:
 Therefore, the total number of nodes (`NODES`) is going to be `$MASTERS * ( 2 )` and ports are going to range from `$INITIAL_PORT` to `$INITIAL_PORT + NODES - 1`.
 
-At the docker-compose provided by this repository, ports 7000-7050 are already mapped to the hosts'. Either if you need more than 50 nodes in total or if you need to change the initial port number, you should override those values.
+At the docker-compose provided by this repository, ports 6379-6384 are already mapped to the hosts'. Either if you need more than 50 nodes in total or if you need to change the initial port number, you should override those values.
 
 
 ## IPv6 support
