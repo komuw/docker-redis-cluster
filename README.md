@@ -19,46 +19,14 @@ make build-image
 To find all redis-server releases see them here https://github.com/antirez/redis/releases
 
 
-## Discussions, help, guides
-
-Github have recently released their `Discussions` feature into beta for more repositories across the github space. This feature is enabled on this repo since a while back.
-
-Becuase we now have this feature, the issues feature will NOT be a place where you can now ask general questions or need simple help with this repo and what it provides.
-
-What can you expect to find in there?
-
- - A place where you can freely ask any question regarding this repo.
- - Ask questions like `how do i do X?`
- - General help with problems with this repo
- - Guides written by me or any other contributer with useful examples and ansers to commonly asked questions and how to resolve thos problems.
- - Approved answers to questions marked and promoted by me if help is provided by the community regarding some questions
-
-
 ## What this repo and container IS
 
-This repo exists as a resource to make it quick and simple to get a redis cluster up and running with no fuzz or issues with mininal effort. The primary use for this container is to get a cluster up and running in no time that you can use for demo/presentation/development. It is not intended or built for anything else.
-
-I also aim to have every single release of redis that supports a cluster available for use so you can run the exact version you want.
-
-I personally use this to develop redis cluster client code https://github.com/Grokzen/redis-py-cluster
+This repo exists as a resource to make it quick and simple to get a redis cluster up and running with no fuzz or issues with mininal effort.
 
 
 ## What this repo and container IS NOT
 
-This container that i have built is not supposed to be some kind of production container or one that is used within any environment other then running locally on your machine. It is not ment to be run on kubernetes or in any other prod/stage/test/dev environment as a fully working commponent in that environment. If that works for you and your use-case then awesome. But this container will not change to fit any other primary solution then to be used locally on your machine.
-
-If you are looking for something else or some production quality or kubernetes compatible solution then you are looking in the wrong repo. There is other projects or forks of this repo that is compatible for that situation/solution.
-
-For all other purposes other then what has been stated you are free to fork and/or rebuild this container using it as a template for what you need.
-
-
-## Redis major version support and docker.hub availability
-
-Starting from `2020-04-01` this repo will only support and make available on docker.hub all minor versions in the latest 3 major versions of redis-server software. At this date the tags on docker.hub for major versions 3.0, 3.2 & 4.0 will be removed and only 5.0, 6.0 & 6.2 will be available to download. This do not mean that you will not be able to build your desired version from this repo but there is no guarantees or support or hacks that will support this out of the box.
-
-Moving forward when a new major release is shipped out, at the first minor release X.Y.1 version of the next major release, all tags from the last supported major version will be removed from docker.hub. This will give some time for the community to adapt and move forward in the versions before the older major version is removed from docker.hub.
-
-This major version schema support follows the same major version support that redis itself use.
+This container that i have built is not supposed to be some kind of production container.
 
 
 ## Redis instances inside the container
@@ -68,7 +36,6 @@ The cluster is 6 redis instances running with 3 master & 3 slaves, one slave for
 This image requires at least `Docker` version 1.10 but the latest version is recommended.
 
 
-
 # Important for Mac users
 TODO
 
@@ -76,158 +43,21 @@ TODO
 
 # Usage
 
-This git repo is using `pyinvoke` to pull, build, push docker images. You can use it to build your own images if you like.
+```sh
+make build-image
 
-The invoke scripts in this repo is written only for python 3.7 and above
-
-Install `pyinvoke` with `pip install invoke`.
-
-This script will run `N num of cpu - 1` parralell tasks based on your version input.
-
-To see available commands run `invoke -l` in the root folder of this repo. Example
-
+docker \
+  run \
+  -it \
+  -p 6379-6384:6379-6384 \
+  -e REDIS_PORT=6379 \
+  -e REDIS_PASSWORD=what43Is*skHSGs \
+  komuw/redis-cluster:v6.2-87c664e
 ```
-(tmp-615229a94c330b9) ➜  docker-redis-cluster git:(pyinvoke) ✗ invoke -l
-"Configured multiprocess pool size: 3
-Available tasks:
-
-  build
-  pull
-  push
-```
-
-Each command is only taking one required positional argument `version`. Example:
-
-```
-(tmp-615229a94c330b9) ➜  docker-redis-cluster git:(pyinvoke) ✗ invoke build 6.0
-...
-```
-
-and it will run the build step on all versions that starts with 6.0.
-
-The only other optional usefull argument is `--cpu=N` and it will set how many paralell processes will be used. By default you will use n - 1 number of cpu cores that is available on your system. Commands like pull and push aare not very cpu intensive so using a higher number here might speed things up if you have good network bandwidth.
-
-
-## Makefile (legacy)
-
-Makefile still has a few docker-compose commands that can be used
-
-To build your own image run:
-
-    make build
-
-To run the container run:
-
-    make up
-
-To stop the container run:
-
-    make down
-
-To connect to your cluster you can use the redis-cli tool:
-
-    redis-cli -c -p 6379
-
-Or the built redis-cli tool inside the container that will connect to the cluster inside the container
-
-    make cli
-
-
-## Change number of nodes
-
-Be default, it is going to launch 3 masters with 1 slave per master. This is configurable through a number of environment variables:
-
-| Environment variable | Default |
-| -------------------- |--------:|
-| `REDIS_PASSWORD`     | hello   |
-
-TODO:
-Therefore, the total number of nodes (`NODES`) is going to be `$MASTERS * ( 2 )` and ports are going to range from `$INITIAL_PORT` to `$INITIAL_PORT + NODES - 1`.
-
-At the docker-compose provided by this repository, ports 6379-6384 are already mapped to the hosts'. Either if you need more than 50 nodes in total or if you need to change the initial port number, you should override those values.
-
 
 ## IPv6 support
 
 TODO
-
-## Build alternative redis versions
-
-For a release to be buildable it needs to be present at this url: http://download.redis.io/releases/
-
-
-### docker build
-
-To build a different redis version use the argument `--build-arg` argument.
-
-    # Example plain docker
-    docker build --build-arg redis_version=6.0.11 -t grokzen/redis-cluster .
-
-
-### docker-compose
-
-To build a different redis version use the `--build-arg` argument.
-
-    # Example docker-compose
-    docker-compose build --build-arg "redis_version=6.0.11" redis-cluster
-
-
-
-# Available tags
-
-The following tags with pre-built images is available on `docker-hub`.
-
-Latest release in the most recent stable branch will be used as `latest` version.
-
-- latest == 6.2.1
-
-Redis 6.2.x versions:
-
-- 6.2.1
-- 6.2.0
-- 6.2-rc2
-- 6.2-rc1
-
-Redis 6.0.x versions:
-
-- 6.0.12
-- 6.0.11
-- 6.0.10
-- 6.0.9
-- 6.0.8
-- 6.0.7
-- 6.0.6
-- 6.0.5
-- 6.0.4
-- 6.0.3
-- 6.0.2
-- 6.0.1
-- 6.0.0
-
-Redis 5.0.x version:
-
-- 5.0.12
-- 5.0.11
-- 5.0.10
-- 5.0.9
-- 5.0.8
-- 5.0.7
-- 5.0.6
-- 5.0.5
-- 5.0.4
-- 5.0.3
-- 5.0.2
-- 5.0.1
-- 5.0.0
-
-
-## Unavailable major versions
-
-The following major versions is no longer available to be downloaded from docker.hub. You can still build and run them directly from this repo.
-
-- 4.0
-- 3.2
-- 3.0
 
 
 # License

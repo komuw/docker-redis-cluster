@@ -12,8 +12,14 @@ if [ "$1" = 'redis-cluster' ]; then
       REDIS_PASSWORD=hello
     fi
 
-    
     INITIAL_PORT=6379
+    if [ -z "$REDIS_PORT" ]; then
+      REDIS_PORT=6379
+      INITIAL_PORT=6379
+    else
+      INITIAL_PORT="$REDIS_PORT"
+    fi
+
     # If you use less than 3 masters, you get error: `Redis Cluster requires at least 3 master nodes`
     MASTERS=3
     SLAVES_PER_MASTER=1
