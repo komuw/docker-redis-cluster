@@ -51,7 +51,7 @@ docker \
   -it \
   -p 6379-6384:6379-6384 \
   -e REDIS_PORT=6379 \
-  -e REDIS_PASSWORD=what43Is*skHSGs \
+  -e REDIS_PASSWORD="what43Is*skHSGs" \
   komuw/redis-cluster:v6.2-87c664e
 ```
 

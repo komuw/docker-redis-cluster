@@ -8,7 +8,7 @@ REDIS_VERSION="6.2"
 build-image:
 	docker ps -aq | xargs docker rm -f;docker volume ls -q | xargs docker volume rm -f | echo ''
 	docker build -t "${ALTREPO}:v${REDIS_VERSION}-${LATEST_COMMIT}" .
-	# docker push --all-tags $(ALTREPO)
+	docker push --all-tags $(ALTREPO)
 
 
 build:
