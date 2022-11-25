@@ -3,7 +3,6 @@ services:
   redis-cluster:
     environment:
       IP: ${REDIS_CLUSTER_IP}
-      STANDALONE: ${REDIS_USE_STANDALONE}
     build:
       context: .
       args:
