@@ -9,9 +9,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install system dependencies
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -yqq \
-      net-tools supervisor ruby rubygems locales gettext-base wget gcc make g++ build-essential libc6-dev tcl && \
-    apt-get clean -yqq
+  apt-get install --no-install-recommends -yqq \
+  net-tools supervisor ruby rubygems locales gettext-base wget gcc make g++ build-essential libc6-dev tcl && \
+  apt-get clean -yqq
 
 # # Ensure UTF-8 lang and locale
 RUN locale-gen en_US.UTF-8
@@ -27,8 +27,8 @@ RUN gem install redis -v 4.1.3
 ARG redis_version=6.2
 
 RUN wget -qO redis.tar.gz https://github.com/redis/redis/tarball/${redis_version} \
-    && tar xfz redis.tar.gz -C / \
-    && mv /redis-* /redis
+  && tar xfz redis.tar.gz -C / \
+  && mv /redis-* /redis
 
 RUN (cd /redis && make)
 
