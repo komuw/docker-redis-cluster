@@ -6,6 +6,12 @@
 
 Docker image with redis built and installed from source and a cluster is built.
 
+
+**TODO: look at;**      
+- https://github.com/phuongdm1987/docker-redis-cluster 
+- https://github.com/Grokzen/docker-redis-cluster/issues/54
+- https://github.com/Grokzen/docker-redis-cluster/discussions/108
+
 To find all redis-server releases see them here https://github.com/antirez/redis/releases
 
 
