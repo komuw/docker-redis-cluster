@@ -160,20 +160,7 @@ At the docker-compose provided by this repository, ports 7000-7050 are already m
 
 ## IPv6 support
 
-By default, redis instances will bind and accept requests from any IPv4 network.
-This is configurable by an environment variable that specifies which address a redis instance will bind to.
-By using the IPv6 variant `::` as counterpart to IPv4s `0.0.0.0` an IPv6 cluster can be created.
-
-| Environment variable | Default |
-| -------------------- | ------: |
-| `BIND_ADDRESS`       | 0.0.0.0 |
-
-Note that Docker also needs to be [configured](https://docs.docker.com/config/daemon/ipv6/) for IPv6 support.
-Unfortunately Docker does not handle IPv6 NAT so, when acceptable, `--network host` can be used.
-
-    # Example using plain docker
-    docker run -e "IP=::1" -e "BIND_ADDRESS=::" --network host grokzen/redis-cluster:latest
-
+TODO
 
 ## Build alternative redis versions
 

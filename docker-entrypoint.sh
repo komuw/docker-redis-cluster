@@ -24,10 +24,8 @@ if [ "$1" = 'redis-cluster' ]; then
 
     
     SLAVES_PER_MASTER=1
-
-    if [ -z "$BIND_ADDRESS" ]; then # Default to any IPv4 address
-      BIND_ADDRESS=0.0.0.0
-    fi
+    # Default to any IPv4 address
+    BIND_ADDRESS=0.0.0.0
 
     max_port=$(($INITIAL_PORT + $MASTERS * ( $SLAVES_PER_MASTER  + 1 ) - 1))
     first_standalone=$(($max_port + 1))
