@@ -45,7 +45,7 @@ COPY generate-supervisor-conf.sh /generate-supervisor-conf.sh
 
 RUN chmod 755 /docker-entrypoint.sh
 
-EXPOSE 7000 7001 7002 7003 7004 7005 7006 7007 5000 5001 5002
+EXPOSE 6379 7000 7001 7002 7003 7004 7005 7006 7007 5000 5001 5002
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["redis-cluster"]
